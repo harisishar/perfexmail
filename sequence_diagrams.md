@@ -369,7 +369,7 @@ sequenceDiagram
         API->>DB: Query click_logs for clicks
         API->>DB: Query bounce_logs for bounces
         API->>DB: Query unsubscribe_logs for unsubscribes
-        DB-->>API: Campaign tracking data
+        DB-->>API: Campaign tracking datass
         
         API->>Aggregator: Calculate performance metrics
         Aggregator->>Aggregator: Process open rates
