@@ -140,4 +140,3 @@ erDiagram
     CAMPAIGNS ||--o{ TRACKING_LOGS : "generates"
     TRACKING_LOGS ||--o{ OPEN_LOGS : "tracks"
     TRACKING_LOGS ||--o{ CLICK_LOGS : "tracks"
-    ```
