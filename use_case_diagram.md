@@ -3,40 +3,33 @@
 ## System Use Case Overview
 
 ```mermaid
-graph TB
-    %% Actors
+graph LR
+    %% Left Side Actors
     Marketer[👤 Marketer<br/>Team Member]
-    Designer[👤 Designer<br/>Team Member] 
-    Admin[👤 Administrator]
+    Designer[👤 Designer<br/>Team Member]
     TeamLead[👤 Team Lead]
-    ESP[🌐 Email Service<br/>Provider]
     System[⚙️ System<br/>Automated]
 
-    %% Core Email Marketing Use Cases
-    UC001[UC001: Manage Email<br/>Campaigns]
-    UC002[UC002: Manage Subscriber<br/>Lists]
-    UC003[UC003: Manage Email<br/>Templates]
-    UC004[UC004: Automate Email<br/>Workflows]
-    UC008[UC008: View Reports<br/>& Analytics]
-    UC009[UC009: Manage Forms]
+    %% Right Side Actors
+    Admin[👤 Administrator]
+    ESP[🌐 Email Service<br/>Provider]
 
-    %% Administrative Use Cases
-    UC005[UC005: Manage Users &<br/>Team Accounts]
-    UC006[UC006: System Administration<br/>& Configuration]
-    UC007[UC007: Manage Usage Plans<br/>& Limits]
-    UC010[UC010: Manage Sending<br/>Infrastructure]
-    UC011[UC011: Manage Blacklists]
+    subgraph PERFEXMAIL_System["🎯 PERFEXMAIL Email Marketing Platform"]
+        %% Core Email Marketing Use Cases
+        UC001[UC001: Manage Email<br/>Campaigns]
+        UC002[UC002: Manage Subscriber<br/>Lists]
+        UC003[UC003: Manage Email<br/>Templates]
+        UC004[UC004: Automate Email<br/>Workflows]
+        UC008[UC008: View Reports<br/>& Analytics]
+        UC009[UC009: Manage Forms]
 
-    %% Extended Use Cases
-    UC012[UC012: Import/Export<br/>Subscribers]
-    UC013[UC013: Send Test<br/>Emails]
-    UC014[UC014: Schedule<br/>Campaigns]
-    UC015[UC015: Track Email<br/>Engagement]
-    UC016[UC016: Manage Custom<br/>Fields]
-    UC017[UC017: Create Email<br/>Segments]
-    UC018[UC018: Configure Domain<br/>Authentication]
-    UC019[UC019: Process Bounce<br/>Handling]
-    UC020[UC020: Monitor System<br/>Health]
+        %% Administrative Use Cases
+        UC005[UC005: Manage Users &<br/>Team Accounts]
+        UC006[UC006: System Administration<br/>& Configuration]
+        UC007[UC007: Manage Usage Plans<br/>& Limits]
+        UC010[UC010: Manage Sending<br/>Infrastructure]
+        UC011[UC011: Manage Blacklists]
+    end
 
     %% Marketer Relationships
     Marketer --> UC001
@@ -45,19 +38,12 @@ graph TB
     Marketer --> UC004
     Marketer --> UC008
     Marketer --> UC009
-    Marketer --> UC012
-    Marketer --> UC013
-    Marketer --> UC014
-    Marketer --> UC015
-    Marketer --> UC016
-    Marketer --> UC017
 
     %% Designer Relationships
     Designer --> UC003
     Designer --> UC009
-    Designer --> UC001
 
-    %% Team Lead Relationships (inherits from Marketer)
+    %% Team Lead Relationships
     TeamLead --> UC001
     TeamLead --> UC002
     TeamLead --> UC003
@@ -67,68 +53,33 @@ graph TB
     TeamLead --> UC005
 
     %% Administrator Relationships
-    Admin --> UC005
-    Admin --> UC006
-    Admin --> UC007
-    Admin --> UC010
-    Admin --> UC011
-    Admin --> UC018
-    Admin --> UC020
-    Admin --> UC001
-    Admin --> UC002
-    Admin --> UC003
-    Admin --> UC004
-    Admin --> UC008
-    Admin --> UC009
+    UC005 --> Admin
+    UC006 --> Admin
+    UC007 --> Admin
+    UC010 --> Admin
+    UC011 --> Admin
+    UC001 --> Admin
+    UC002 --> Admin
+    UC003 --> Admin
+    UC004 --> Admin
+    UC008 --> Admin
 
     %% System/Automated Relationships
-    System --> UC015
-    System --> UC019
-    System --> UC020
     System --> UC004
+    System --> UC010
+    System --> UC011
 
     %% ESP Relationships
-    ESP --> UC015
-    ESP --> UC019
-    ESP --> UC013
+    UC010 --> ESP
 
     %% Include Relationships
-    UC001 -.->|includes| UC013
-    UC001 -.->|includes| UC014
-    UC001 -.->|includes| UC015
-    UC002 -.->|includes| UC012
-    UC002 -.->|includes| UC016
-    UC002 -.->|includes| UC017
-    UC008 -.->|includes| UC015
-    UC010 -.->|includes| UC018
-    UC010 -.->|includes| UC019
+    UC001 -.->|includes| UC004
+    UC002 -.->|includes| UC011
+    UC004 -.->|includes| UC003
+    UC010 -.->|includes| UC011
 
     %% Actor Inheritance
     TeamLead -.->|inherits| Marketer
-    
-    %% System Boundary
-    subgraph PERFEXMAIL_System["🎯 PERFEXMAIL Email Marketing Platform"]
-        UC001
-        UC002
-        UC003
-        UC004
-        UC005
-        UC006
-        UC007
-        UC008
-        UC009
-        UC010
-        UC011
-        UC012
-        UC013
-        UC014
-        UC015
-        UC016
-        UC017
-        UC018
-        UC019
-        UC020
-    end
 
     %% Styling
     classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
@@ -139,8 +90,8 @@ graph TB
     class Marketer,Designer,TeamLead actor
     class Admin admin
     class ESP,System system
-    class UC001,UC002,UC003,UC004,UC008,UC009,UC012,UC013,UC014,UC015,UC016,UC017 usecase
-    class UC005,UC006,UC007,UC010,UC011,UC018,UC019,UC020 admin
+    class UC001,UC002,UC003,UC004,UC008,UC009 usecase
+    class UC005,UC006,UC007,UC010,UC011 admin
 ```
 
 ## Actor Descriptions
@@ -180,17 +131,6 @@ graph TB
 - **UC010: Manage Sending Infrastructure** - Configure email sending servers and domain authentication
 - **UC011: Manage Blacklists** - Maintain global email blacklists for compliance
 
-### **🔧 Extended Functionality Use Cases**
-- **UC012: Import/Export Subscribers** - Bulk subscriber data management
-- **UC013: Send Test Emails** - Campaign testing and preview functionality
-- **UC014: Schedule Campaigns** - Advanced campaign scheduling features
-- **UC015: Track Email Engagement** - Monitor opens, clicks, and engagement metrics
-- **UC016: Manage Custom Fields** - Configure custom subscriber data fields
-- **UC017: Create Email Segments** - Advanced subscriber segmentation
-- **UC018: Configure Domain Authentication** - Setup SPF, DKIM, and DMARC records
-- **UC019: Process Bounce Handling** - Automated bounce and complaint processing
-- **UC020: Monitor System Health** - System performance and health monitoring
-
 ## Relationship Types
 
 ### **Association Relationships**
@@ -201,10 +141,10 @@ graph TB
 - **Team Lead inherits from Marketer**: Team Lead has all Marketer permissions plus additional elevated access
 
 ### **Include Relationships**
-- **UC001 includes UC013, UC014, UC015**: Campaign management requires testing, scheduling, and tracking
-- **UC002 includes UC012, UC016, UC017**: List management includes import/export, custom fields, and segmentation
-- **UC008 includes UC015**: Analytics requires engagement tracking data
-- **UC010 includes UC018, UC019**: Infrastructure management includes domain setup and bounce handling
+- **UC001 includes UC004**: Campaign management includes automation capabilities
+- **UC002 includes UC011**: List management includes blacklist checking
+- **UC004 includes UC003**: Automation workflows include template management
+- **UC010 includes UC011**: Infrastructure management includes blacklist handling
 
 ## Security and Access Control
 
